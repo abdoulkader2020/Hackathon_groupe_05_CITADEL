@@ -91,25 +91,26 @@ for i in range(0,int(dernire_page)+ 1,20):
         source = ""
         contenu_nested = soup_nested.findAll("h3")[0].text #soup_nested.findAll("h3").find("p").find("strong").text
         div_comment = []
-        
-        for p in soup_nested.find("div", class_='article_content').findAll("p"):
-            if not p.text.startswith('Lefaso.net'):
-                if p.text.startswith('Source'):
-                    source = p.text
-                else:
-                    contenu_nested = contenu_nested + p.text
-            ul = soup_nested.find("ul", class_='comments-ul comments-items')
-            if ul:
-                for comment in ul.findAll("li")  :
-                    coment_descrip = comment.find("div"  , class_ = "comment-texte").text
-                    comment_by = comment.find("strong" , class_ = "fn n").text
-                    coment_date = comment.find("abbr")["title"]
-                    div_comment_tab = {}
+        div = soup_nested.find("div", class_='article_content')
+        if div:
+            for p in div.findAll("p"):
+                if not p.text.startswith('Lefaso.net'):
+                    if p.text.startswith('Source'):
+                        source = p.text
+                    else:
+                        contenu_nested = contenu_nested + p.text
+                ul = soup_nested.find("ul", class_='comments-ul comments-items')
+                if ul:
+                    for comment in ul.findAll("li")  :
+                        coment_descrip = comment.find("div"  , class_ = "comment-texte").text
+                        comment_by = comment.find("strong" , class_ = "fn n").text
+                        coment_date = comment.find("abbr")["title"]
+                        div_comment_tab = {}
 
-                    div_comment_tab["Comment"] = coment_descrip
-                    div_comment_tab["Comment_by"] = comment_by
-                    div_comment_tab["Comment_date"] = coment_date
-                    div_comment.append(div_comment_tab)
+                        div_comment_tab["Comment"] = coment_descrip
+                        div_comment_tab["Comment_by"] = comment_by
+                        div_comment_tab["Comment_date"] = coment_date
+                        div_comment.append(div_comment_tab)
             
         div_content = contenu_nested
         div_publish_by = source
@@ -125,16 +126,3 @@ for i in range(0,int(dernire_page)+ 1,20):
 
 with codecs.open(bdd_courant, 'w', 'utf8' ) as jsonfile:
     jsonfile.write(json.dumps(datadicos, sort_keys = True, ensure_ascii=False))
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
