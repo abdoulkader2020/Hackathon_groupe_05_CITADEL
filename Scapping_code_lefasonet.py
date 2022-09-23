@@ -103,6 +103,10 @@ for i in range(0,int(dernire_page)+ 1,20):
                 if ul:
                     for comment in ul.findAll("li")  :
                         coment_descrip = comment.find("div"  , class_ = "comment-texte").text
+                        comment_by = ''
+                        command_balise = comment.find("strong" , class_ = "fn n")
+                        if(command_balise):
+                            comment_by = command_balise.text
                         comment_by = comment.find("strong" , class_ = "fn n").text
                         coment_date = comment.find("abbr")["title"]
                         div_comment_tab = {}
